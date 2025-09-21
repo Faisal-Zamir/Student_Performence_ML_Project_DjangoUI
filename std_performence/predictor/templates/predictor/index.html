@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Performance Predictor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #3f51b5;
+            --secondary-color: #2196f3;
+            --accent-color: #4caf50;
+            --light-color: #e8f5e9;
+            --dark-color: #1a237e;
+            --header-height: 20vh;
+            --footer-height: 10vh;
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+            background-color: #f5f9fc;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .main-container {
+            flex: 1;
+            padding: 2rem 0;
+        }
+        
+        .form-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            padding: 2rem;
+            height: 100%;
+        }
+        
+        .result-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            height: 100%;
+        }
+        
+        .performance-card {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            height: var(--footer-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-top: 15.5rem;
+        }
+        
+        .btn-predict {
+            background: linear-gradient(to right, var(--accent-color), #2e7d32);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            border-radius: 30px;
+        }
+        
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .result-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .good-performance {
+            color: #4caf50;
+        }
+        
+        .average-performance {
+            color: #ff9800;
+        }
+        
+        .poor-performance {
+            color: #f44336;
+        }
+        
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .input-group-text {
+            background: var(--light-color);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+        }
+        
+        .header h1 {
+            font-weight: 800;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .result-container {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="display-4 fw-bold"><i class="bi bi-mortarboard"></i> Student Performance Predictor</h1>
+            <p class="lead">Predict academic performance based on study habits and activities</p>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="main-container">
+        <div class="container">
+            <div class="row">
+                <!-- Form Column (8) -->
+                <div class="col-lg-8">
+                    <div class="form-container">
+                        <h3 class="mb-4"><i class="bi bi-pencil-square"></i> Student Information</h3>
+                        <form id="predictionForm">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Hours Studied</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Hours per day" min="0" max="24" step="0.5">
+                                        <span class="input-group-text">hrs/day</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Previous Scores</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Average score" min="0" max="100">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Extracurricular Activities</label>
+                                    <select class="form-select">
+                                        <option selected>Select level</option>
+                                        <option value="none">None</option>
+                                        <option value="low">Low (1-2 activities)</option>
+                                        <option value="medium">Medium (3-4 activities)</option>
+                                        <option value="high">High (5+ activities)</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Sleep Hours</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Hours per night" min="0" max="12" step="0.5">
+                                        <span class="input-group-text">hrs/night</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <label class="form-label">Sample Papers Practiced</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Number of papers" min="0">
+                                        <span class="input-group-text">papers</span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Expected Performance Index</label>
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" placeholder="Expected score" min="0" max="100">
+                                        <span class="input-group-text">%</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-predict btn-lg">
+                                    <i class="bi bi-calculator"></i> Calculate Performance
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- Result Column (4) -->
+                <div class="col-lg-4">
+                    <!-- Result Card -->
+                    <div class="result-container text-center">
+                        <h3 class="mb-4"><i class="bi bi-graph-up"></i> Prediction Result</h3>
+                        <div class="result-icon good-performance">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <h4 class="good-performance">Excellent</h4>
+                        <p class="text-muted">Performance Index: 92%</p>
+                        <div class="progress mb-3" style="height: 20px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92%</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Performance Card -->
+                    <div class="performance-card">
+                        <h4 class="mb-3"><i class="bi bi-speedometer2"></i> Model Performance</h4>
+                        <div class="row text-center">
+                            <div class="col-6 mb-3">
+                                <div class="metric-value">94.5%</div>
+                                <div>Accuracy</div>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <div class="metric-value">92.8%</div>
+                                <div>Precision</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="metric-value">93.7%</div>
+                                <div>Recall</div>
+                            </div>
+                            <div class="col-6">
+                                <div class="metric-value">93.2%</div>
+                                <div>F1 Score</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="mb-0">Developer: Faisal Zamir | Email: JafriCode@gmail.com | WhatsApp: +92 342 9376519</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Simple form validation and interaction
+        document.getElementById('predictionForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real application, you would send the form data to your Django backend
+            // and update the result section with the prediction
+            
+            // For demonstration purposes, we'll simulate different results
+            const resultIcon = document.querySelector('.result-icon');
+            const resultText = document.querySelector('h4');
+            const performanceValue = document.querySelector('.text-muted');
+            const progressBar = document.querySelector('.progress-bar');
+            
+            // Random performance for demo
+            const performance = Math.floor(Math.random() * 40) + 60;
+            
+            // Update performance text and progress bar
+            performanceValue.textContent = `Performance Index: ${performance}%`;
+            progressBar.style.width = `${performance}%`;
+            progressBar.textContent = `${performance}%`;
+            progressBar.setAttribute('aria-valuenow', performance);
+            
+            // Update result based on performance
+            if (performance >= 85) {
+                resultIcon.innerHTML = '<i class="bi bi-trophy"></i>';
+                resultText.textContent = 'Excellent';
+                resultText.className = 'good-performance';
+                resultIcon.className = 'result-icon good-performance';
+                progressBar.className = 'progress-bar bg-success';
+            } else if (performance >= 70) {
+                resultIcon.innerHTML = '<i class="bi bi-check-circle"></i>';
+                resultText.textContent = 'Good';
+                resultText.className = 'average-performance';
+                resultIcon.className = 'result-icon average-performance';
+                progressBar.className = 'progress-bar bg-warning';
+            } else {
+                resultIcon.innerHTML = '<i class="bi bi-exclamation-circle"></i>';
+                resultText.textContent = 'Needs Improvement';
+                resultText.className = 'poor-performance';
+                resultIcon.className = 'result-icon poor-performance';
+                progressBar.className = 'progress-bar bg-danger';
+            }
+        });
+    </script>
+</body>
+</html>
