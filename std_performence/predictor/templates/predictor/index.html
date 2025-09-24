@@ -153,67 +153,56 @@
                 <div class="col-lg-8">
                     <div class="form-container">
                         <h3 class="mb-4"><i class="bi bi-pencil-square"></i> Student Information</h3>
-                        <form id="predictionForm">
+                       <form method="post" id="predictionForm">
+                            {% csrf_token %}
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Hours Studied</label>
+                                    {{ form.hours_studied.label_tag }}
                                     <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="Hours per day" min="0" max="24" step="0.5">
-                                        <span class="input-group-text">hrs/day</span>
+                                        {{ form.hours_studied }}
+                                        <span class="input-group-text">hrs</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Previous Scores</label>
+                                    {{ form.previous_scores.label_tag }}
                                     <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="Average score" min="0" max="100">
-                                        <span class="input-group-text">%</span>
+                                        {{ form.previous_scores }}
+                                        <span class="input-group-text">from 200</span>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row mb-3">
                                 <div class="col-md-6">
-                                    <label class="form-label">Extracurricular Activities</label>
-                                    <select class="form-select">
-                                        <option selected>Select level</option>
-                                        <option value="none">None</option>
-                                        <option value="low">Low (1-2 activities)</option>
-                                        <option value="medium">Medium (3-4 activities)</option>
-                                        <option value="high">High (5+ activities)</option>
-                                    </select>
+                                    {{ form.extracurricular.label_tag }}
+                                    {{ form.extracurricular }}
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Sleep Hours</label>
+                                    {{ form.sleep_hours.label_tag }}
                                     <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="Hours per night" min="0" max="12" step="0.5">
-                                        <span class="input-group-text">hrs/night</span>
+                                        {{ form.sleep_hours }}
+                                        <span class="input-group-text">hrs</span>
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="row mb-4">
                                 <div class="col-md-6">
-                                    <label class="form-label">Sample Papers Practiced</label>
+                                    {{ form.sample_papers.label_tag }}
                                     <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="Number of papers" min="0">
+                                        {{ form.sample_papers }}
                                         <span class="input-group-text">papers</span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Expected Performance Index</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" placeholder="Expected score" min="0" max="100">
-                                        <span class="input-group-text">%</span>
-                                    </div>
-                                </div>
                             </div>
-                            
+
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-predict btn-lg">
                                     <i class="bi bi-calculator"></i> Calculate Performance
                                 </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
                 
@@ -222,35 +211,35 @@
                     <!-- Result Card -->
                     <div class="result-container text-center">
                         <h3 class="mb-4"><i class="bi bi-graph-up"></i> Prediction Result</h3>
-                        <div class="result-icon good-performance">
-                            <i class="bi bi-trophy"></i>
+                        <div class="result-icon">
+                            <i class="bi bi-question-circle"></i>
                         </div>
-                        <h4 class="good-performance">Excellent</h4>
-                        <p class="text-muted">Performance Index: 92%</p>
+                        <h4 class="">No prediction yet</h4>
+                        <p class="text-muted">Performance Index: --%</p>
                         <div class="progress mb-3" style="height: 20px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 92%;" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100">92%</div>
+                            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">0%</div>
                         </div>
                     </div>
-                    
+
                     <!-- Performance Card -->
                     <div class="performance-card">
                         <h4 class="mb-3"><i class="bi bi-speedometer2"></i> Model Performance</h4>
                         <div class="row text-center">
                             <div class="col-6 mb-3">
-                                <div class="metric-value">94.5%</div>
-                                <div>Accuracy</div>
+                                <div class="metric-value">{{metrics.r2_score}}%</div>
+                                <div>R <sup>2</sup> Score</div>
                             </div>
                             <div class="col-6 mb-3">
-                                <div class="metric-value">92.8%</div>
-                                <div>Precision</div>
+                                <div class="metric-value">{{metrics.mse}}%</div>
+                                <div>MSE</div>
                             </div>
                             <div class="col-6">
-                                <div class="metric-value">93.7%</div>
-                                <div>Recall</div>
+                                <div class="metric-value">{{metrics.rmse}}%</div>
+                                <div>RMSE</div>
                             </div>
                             <div class="col-6">
-                                <div class="metric-value">93.2%</div>
-                                <div>F1 Score</div>
+                                <div class="metric-value">{{metrics.mae}}%</div>
+                                <div>MAE</div>
                             </div>
                         </div>
                     </div>
@@ -267,50 +256,59 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Simple form validation and interaction
-        document.getElementById('predictionForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // In a real application, you would send the form data to your Django backend
-            // and update the result section with the prediction
-            
-            // For demonstration purposes, we'll simulate different results
-            const resultIcon = document.querySelector('.result-icon');
-            const resultText = document.querySelector('h4');
-            const performanceValue = document.querySelector('.text-muted');
-            const progressBar = document.querySelector('.progress-bar');
-            
-            // Random performance for demo
-            const performance = Math.floor(Math.random() * 40) + 60;
-            
-            // Update performance text and progress bar
-            performanceValue.textContent = `Performance Index: ${performance}%`;
-            progressBar.style.width = `${performance}%`;
-            progressBar.textContent = `${performance}%`;
-            progressBar.setAttribute('aria-valuenow', performance);
-            
-            // Update result based on performance
-            if (performance >= 85) {
-                resultIcon.innerHTML = '<i class="bi bi-trophy"></i>';
-                resultText.textContent = 'Excellent';
-                resultText.className = 'good-performance';
-                resultIcon.className = 'result-icon good-performance';
-                progressBar.className = 'progress-bar bg-success';
-            } else if (performance >= 70) {
-                resultIcon.innerHTML = '<i class="bi bi-check-circle"></i>';
-                resultText.textContent = 'Good';
-                resultText.className = 'average-performance';
-                resultIcon.className = 'result-icon average-performance';
-                progressBar.className = 'progress-bar bg-warning';
-            } else {
-                resultIcon.innerHTML = '<i class="bi bi-exclamation-circle"></i>';
-                resultText.textContent = 'Needs Improvement';
-                resultText.className = 'poor-performance';
-                resultIcon.className = 'result-icon poor-performance';
-                progressBar.className = 'progress-bar bg-danger';
-            }
-        });
-    </script>
+  <script>
+document.getElementById("predictionForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch("{% url 'homepage' %}", {
+        method: "POST",
+        body: formData,
+        headers: {
+            "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+            "X-Requested-With": "XMLHttpRequest"
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const performance = data.prediction;
+
+        const resultIcon = document.querySelector(".result-icon");
+        const resultText = document.querySelector(".result-container h4");
+        const performanceValue = document.querySelector(".result-container .text-muted");
+        const progressBar = document.querySelector(".progress-bar");
+
+        // Update progress bar + text
+        performanceValue.textContent = `Performance Index: ${performance}%`;
+        progressBar.style.width = `${performance}%`;
+        progressBar.textContent = `${performance}%`;
+        progressBar.setAttribute("aria-valuenow", performance);
+
+        // Style based on score
+        if (performance >= 85) {
+            resultIcon.innerHTML = '<i class="bi bi-trophy"></i>';
+            resultIcon.className = "result-icon good-performance";
+            resultText.textContent = "Excellent";
+            resultText.className = "good-performance";
+            progressBar.className = "progress-bar bg-success";
+        } else if (performance >= 70) {
+            resultIcon.innerHTML = '<i class="bi bi-check-circle"></i>';
+            resultIcon.className = "result-icon average-performance";
+            resultText.textContent = "Good";
+            resultText.className = "average-performance";
+            progressBar.className = "progress-bar bg-warning";
+        } else {
+            resultIcon.innerHTML = '<i class="bi bi-exclamation-circle"></i>';
+            resultIcon.className = "result-icon poor-performance";
+            resultText.textContent = "Needs Improvement";
+            resultText.className = "poor-performance";
+            progressBar.className = "progress-bar bg-danger";
+        }
+    })
+    .catch(error => console.error("Error:", error));
+});
+</script>
+
 </body>
 </html>
