@@ -1,1 +1,1 @@
-web: gunicorn std_performence.wsgi
+web: gunicorn std_performance.wsgi --bind 0.0.0.0:$PORT
