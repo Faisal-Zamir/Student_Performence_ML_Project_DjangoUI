@@ -1,0 +1,1 @@
+gunicorn std_performence.wsgi:application
