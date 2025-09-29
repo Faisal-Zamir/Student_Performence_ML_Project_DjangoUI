@@ -1,8 +1,14 @@
 from pathlib import Path
+import dj_database_url
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+STATIC_URL = '/static/'
+
+# Add this line:
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -13,7 +19,7 @@ SECRET_KEY = 'django-insecure-+j(7d!g*xq%1_f)6e$+8=tg6itjxrbr#8ga2(@#l4ieoagz*rm
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -61,12 +67,19 @@ WSGI_APPLICATION = 'std_performence.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Default: SQLite for local development
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# Override with DATABASE_URL from Heroku if exists
+DATABASES['default'] = dj_database_url.config(
+    default=f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}"
+)
+
 
 
 # Password validation
