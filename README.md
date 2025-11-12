@@ -65,7 +65,7 @@ For example:
 - ![Home Page](Screenshot_906.png)
 
 - **Metrics (bottom area):** Screenshot showing the predicted results and metrics.
-- - ![Metrics](Screenshot_907.png)
+- ![Metrics](Screenshot_907.png)
 
 
 **Contributing**
