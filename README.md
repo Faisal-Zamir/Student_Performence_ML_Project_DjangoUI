@@ -4,7 +4,7 @@
 A machine learning project that predicts student performance and provides a user-friendly interface built with Django.
 
 ## Features
-- Predict student grades based on input features.
+- Predict student performance score based on input features.
 - Web-based UI using Django.
 - Interactive and user-friendly input forms.
 - Displays predictions along with model accuracy.
@@ -13,7 +13,7 @@ A machine learning project that predicts student performance and provides a user
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/<your-username>/Student_Performance_ML_Project_DjangoUI.git
+git clone https://github.com/Faisal-Zamir/Student_Performance_ML_Project_DjangoUI.git
 ```
 2. Navigate to the project directory:
 
@@ -37,36 +37,36 @@ http://127.0.0.1:8000
 To use the Student Performance Prediction application:
 
 - **Step 1:** Fill in student details in the input form.
-- **Step 2:** Click the **"Predict"** button.
-- **Step 3:** View the predicted performance along with related metrics such as accuracy and probability scores.
-
+- **Step 2:** Click the **"Calculate Performence"** button.
+- **Step 3:** View the predicted performance along with related metrics such as the performance index.
 ---
 
 ## Dataset
 
-The model is trained on a publicly available student performance dataset from the [UCI Machine Learning Repository](https://archive.ics.uci.edu/ml/datasets/student+performance).  
-
-> ⚠️ Replace this with your dataset if you used a different one.
-
+The model is trained on a publicly available dataset from Kaggle:
+Link: 
+```bash
+https://www.kaggle.com/datasets/nikhil7280/student-performance-multiple-linear-regression  
+```
 ---
 
 ## Model
 
-- **Algorithm:** `<Your ML Algorithm>`  
-- **Accuracy:** `<Your Model Accuracy>`  
-
-> ⚠️ Update these placeholders with your model details.
+- **Algorithm:** Linear Regression
+- **R2:** 99%  
 
 ---
 
 ## Screenshots
 
-*(Optional: Add screenshots of your Django UI here to showcase the project.)*  
-
 For example:  
 
-- **Home Page:** Screenshot of the form where users input student data.  
-- **Prediction Page:** Screenshot showing the predicted results and metrics.
+- **Home Page:** Screenshot of the form where users input student data.
+- ![Home Page](Screenshot_906.png)
+
+- **Metrics (bottom area):** Screenshot showing the predicted results and metrics.
+- - ![Metrics](Screenshot_907.png)
+
 
 **Contributing**
 
@@ -74,5 +74,5 @@ Feel free to open an issue or submit a pull request for improvements.
 
 **Contact**
 
-Faisal Zamir - <your email>
+Faisal Zamir - pyFaisalZamir@gmail.com | JafriCode@gmail.com
 GitHub: https://github.com/Faisal-Zamir
